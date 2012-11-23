@@ -15,6 +15,7 @@ function JCST(){
     this.pixels_per_second = 400;
     this.pixels_per_semitone = 20;
     this.audio = new Audio();
+    this.note_offset = 0;
 }
 
 
@@ -43,6 +44,10 @@ JCST.prototype.loadMidi = function(name, cb){
 
         var time = 0;
 
+        var highest = 0;
+
+        var lowest = 256;
+
         for(var i=0;i<events.length;i++){
             var event = events[i];
             time += event.dt / that.song.midi.ticks_per_second;
@@ -52,8 +57,20 @@ JCST.prototype.loadMidi = function(name, cb){
             }
             else if(event.type == 8){
                 that.notes.push({start:note_start, length: time-note_start, note_number:event.note_number});
+
+                if(event.note_number < lowest){
+                    lowest = event.note_number;
+                }
+
+                if(event.note_number > highest){
+                    highest = event.note_number;
+                }
             }
         }
+
+        that.note_offset = highest;
+
+        that.pixels_per_semitone = that.canvas.height/(highest-lowest);
 
         that.start();
    });
@@ -119,7 +136,7 @@ JCST.prototype.render = function(){
         }else{
             this.ctx.fillStyle = 'black';
         }
-        this.ctx.fillRect((note.start-now+seconds_per_beat)*this.pixels_per_second, (90-note.note_number)*this.pixels_per_semitone, note.length*this.pixels_per_second, 1*this.pixels_per_semitone);
+        this.ctx.fillRect((note.start-now+seconds_per_beat)*this.pixels_per_second, (this.note_offset-note.note_number)*this.pixels_per_semitone, note.length*this.pixels_per_second, 1*this.pixels_per_semitone);
     }
 };
 

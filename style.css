@@ -116,10 +116,13 @@ h3 {
 }
 
 #lyrics {
+    /*
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+    */
+    padding-top:40px;
     height: 150px;
     text-align: center;
     font-size: 1.2em;
