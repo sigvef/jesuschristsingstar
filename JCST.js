@@ -20,7 +20,6 @@ function JCST(){
 
 JCST.prototype.loadMidi = function(name, cb){
     var that = this;
-    console.log(name);
    $.getJSON(name, function(data){
        data.midi = new Midi(atob(data.midi));
 
@@ -46,7 +45,7 @@ JCST.prototype.loadMidi = function(name, cb){
 
         for(var i=0;i<events.length;i++){
             var event = events[i];
-            time += event.dt / that.song.midi.ticks_per_second * that.song.slowness;
+            time += event.dt / that.song.midi.ticks_per_second;
 
             if(event.type == 9){
                 note_start = time; 
