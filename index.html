@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src=fft.js></script>
+<script src=pitch.js></script>
+
+</head>
+<body>
+
+
+<canvas id=c style='border:1px solid black' height=500></canvas>
+
+<script>
+
+var ctx = c.getContext('2d');
+
+var context = new webkitAudioContext();  
+
+var pitch = new PitchAnalyzer(context.sampleRate);
+
+
+var jsnode = context.createJavaScriptNode(4096);
+
+var freq = 0;
+
+
+
+
+jsnode.onaudioprocess = function(e){
+    var data = e.inputBuffer.getChannelData(0);
+    pitch.input(data);
+    pitch.process();
+    
+    var tone = pitch.findTone();
+    if(tone){
+        console.log(tone);
+        freq = tone.freq;
+        ctx.clearRect(0,0,c.width,c.height);
+        ctx.fillRect(100, (c.height-freq)/2, 100, 10);
+    }
+};
+
+
+navigator.webkitGetUserMedia({audio: true}, function(stream) {
+        console.log("Connected live audio input");
+        liveSource = context.createMediaStreamSource(stream);
+        liveSource.connect(jsnode);
+        jsnode.connect(context.destination);
+}, function(){});
+
+</script>
+
+</body>
+</html>
