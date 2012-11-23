@@ -3,19 +3,23 @@
 <head>
 
     <title>Jesus Christ SingStar</title>
+
     <script src=fft.js></script>
     <script src=pitch.js></script>
     <script src=midi.js></script>
     <script src=JCST.js></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <script src=fft.js></script>
+    <script src=pitch.js></script>
+    <script src=midi.js></script>
+    <script src=JCST.js></script>
     <script src=lyrics.js></script>
     <script src=main.js></script>
+
+    <link rel="stylesheet" href="style.css" type="text/css" />
     <style>
         canvas{position:absolute;top:0;left:0}
     </style>
-
 </head>
 <body>
 
@@ -103,12 +107,6 @@ navigator.webkitGetUserMedia({audio: true}, function(stream) {
         jsnode.connect(context.destination);
 }, function(){});
 
-setInterval(function(){
-    ctx.fillStyle = 'rgba(255,255,255,0.2)';
-    ctx.fillRect(0,0,c.width,c.height);
-    var margin_left = 0.01*jcst.song.midi.ticks_per_second;
-    $(jcst.canvas).css({'margin-left': '-='+margin_left+'px'});
-}, 10);
 
 </script>
 </body>
