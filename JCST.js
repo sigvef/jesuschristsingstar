@@ -11,6 +11,7 @@ function JCST(){
     this.canvas.width = 32000; 
     this.canvas.height = 600;
     this.segment_width = 1;
+    this.lyrics = new LyricsMachine();
 }
 
 
@@ -24,6 +25,7 @@ JCST.prototype.loadMidi = function(name, cb){
         that.song = data;
         that.events = that.song.midi.tracks[data.voice_track].events;
         that.render(); 
+        that.lyrics.play();
    });
 }
 
