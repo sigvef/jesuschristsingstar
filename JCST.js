@@ -20,8 +20,7 @@ function JCST(){
 JCST.prototype.loadMidi = function(name, cb){
     var that = this;
     console.log(name);
-   $.get(name, function(data){
-       data = $.parseJSON(data);
+   $.getJSON(name, function(data){
        data.midi = new Midi(atob(data.midi));
 
         that.reset();
