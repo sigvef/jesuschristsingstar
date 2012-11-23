@@ -4,16 +4,28 @@ html, body {
 }
 body {
     font-family: helvetica, arial, sans-serif;
+    background-image: -webkit-gradient(linear, right bottom, right top, color-stop(0, #eee), color-stop(0.25, #eee), color-stop(0.25, #ddd), color-stop(0.5, #ddd), color-stop(0.5, #eee), color-stop(0.75, #eee), color-stop(0.75, #ddd));
+    background-image: -webkit-linear-gradient(right bottom, #eee 0%, #eee 25%, #ddd 25%, #ddd 50%, #eee 50%, #eee 75%, #ddd 75%);
+    background-image: -moz-linear-gradient(right bottom, #eee 0%, #eee 25%, #ddd 25%, #ddd 50%, #eee 50%, #eee 75%, #ddd 75%);
+    background-image: -ms-linear-gradient(right bottom, #eee 0%, #eee 25%, #ddd 25%, #ddd 50%, #eee 50%, #eee 75%, #ddd 75%);
+    background-image: -o-linear-gradient(right bottom, #eee 0%, #eee 25%, #ddd 25%, #ddd 50%, #eee 50%, #eee 75%, #ddd 75%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ddd',GradientType=0 ); / IE6-8 */
+    background-image: linear-gradient(right bottom, #eee 0%, #eee 25%, #ddd 25%, #ddd 50%, #eee 50%, #eee 75%, #ddd 75%);
+    background-size: 30px 30px;
 }
 
 #splash-container {
-    max-width: 900px;
-    width: 100%;
+    width: 450px;
     position: absolute;
-    top: 200px;
+    top: 50px;
     left: 50%;
     margin-left: -450px;
-    text-align: center;
+    padding-left: 450px;
+    padding-top: 150px;
+    text-align: left;
+    background: url('jesusisafriendofmine.png') no-repeat left;
+    background-size: 450px;
+    min-height: 450px;
 }
 #start-button{
     padding: 10px 15px;
@@ -58,11 +70,11 @@ h3 {
 
 #game-container {
     position: absolute;
-    max-width: 900px;
-    width: 100%;
+    width: 900px;
     top: 50px;
     left: 50%;
     margin-left: -450px;
+    display: none;
 }
 
 #lyrics {
@@ -71,4 +83,14 @@ h3 {
     left: 0;
     right: 0;
     height: 150px;
+    text-align: center;
+    font-size: 1.2em;
+    background: rgba(255,255,255,0.5);
+}
+#lyrics div {
+    margin: 1em;
+}
+#lyrics #current-line {
+    font-weight: bold;
+    font-size: 1.1em;
 }

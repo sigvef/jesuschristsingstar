@@ -3,6 +3,9 @@
 <head>
     <title>Jesus Christ SingStar</title>
     <link rel="stylesheet" href="style.css" type="text/css" />
+    <script src=https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
+    <script src=lyrics.js></script>
+    <script src=main.js></script>
 </head>
 <body>
     <div id="splash-container">
@@ -11,8 +14,11 @@
         <a href="javascript:;" id="start-button">Start!</a>
     </div>
     <div id="game-container">
-        <canvas id="canvas"></canvas>
-        <div id="lyrics"></div>
+        <canvas id="canvas" width="900" height="450"></canvas>
+        <div id="lyrics">
+            <div id="current-line"></div>
+            <div id="next-line"></div>
+        </div>
     </div>
 </body>
 </html>
