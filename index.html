@@ -29,10 +29,19 @@
     <div id="splash-container">
         <h1>Jesus Christ Sing Star</h1>
         <h3>Share the bible with your friends, while singing your favorite pop songs!</h3>
+        <select id="song-picker">
+            <option value="queen-dont_stop_me_now">Queen - Don't Stop Me Now</option>
+            <option value="gotye-somebody_that_i_used_to_know">Gotye feat, Kimbra - Somebody That I Used To Know</option>
+            <option value="justin_bieber-baby">Justin Bieber - Baby</option>
+            <option value="adele-rolling_in_the_deep">Adele - Rolling in the Deep</option>
+            <option value="the_killers-human">The Killers - Human</option>
+            <option value="outkast-hey_ya">Outkast - Hey Ya</option>
+        </select>
         <a href="javascript:;" id="start-button">Start!</a>
     </div>
     <div id="game-container">
-        <canvas id="c" width="900" height="450"></canvas>
+        <h1 id="song-title"></h1>
+        <canvas id="canvas" width="900" height="450"></canvas>
         <div id="lyrics">
             <div id="current-line"></div>
             <div id="next-line"></div>
@@ -50,7 +59,7 @@ jcst.loadMidi('midi/justin_bieber-baby.mid.json');
 
 
 
-var ctx = document.getElementById('c').getContext('2d');
+var ctx = document.getElementById('canvas').getContext('2d');
 
 var context = new webkitAudioContext();  
 
