@@ -4,14 +4,31 @@
 
 <script src=fft.js></script>
 <script src=pitch.js></script>
+<script src=midi.js></script>
+<script src=JCST.js></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<style>
+    *{position:absolute;top:0;left:0}
+</style>
 
 </head>
 <body>
 
+<canvas id=c height=600></canvas>
 
-<canvas id=c style='border:1px solid black' width=800 height=480></canvas>
 
 <script>
+
+
+jcst = new JesusChristSingStar();
+jcst.loadMidi('midi/justin_bieber-baby.mid.json');
+
+
+
+
+
+
 
 var ctx = c.getContext('2d');
 
@@ -49,7 +66,6 @@ jsnode.onaudioprocess = function(e){
     
     var tone = pitch.findTone();
     if(tone){
-        console.log(tone);
         freqs[freq_counter] = tone.freq;
         freq_counter = (freq_counter + 1) % freqs.length;
 
@@ -57,7 +73,7 @@ jsnode.onaudioprocess = function(e){
 
 
         ctx.fillStyle = 'orange';
-        ctx.fillRect(100, (c.height-freq+200), 100, 10);
+        ctx.fillRect(100, (c.height-freq+200), 40, 20);
     }
 };
 
@@ -70,10 +86,11 @@ navigator.webkitGetUserMedia({audio: true}, function(stream) {
 }, function(){});
 
 setInterval(function(){
-    ctx.fillStyle = 'rgba(255,255,255,0.05)';
+    ctx.fillStyle = 'rgba(255,255,255,0.2)';
     ctx.fillRect(0,0,c.width,c.height);
-    ctx.drawImage(c, 2,0);
-}, 20);
+    var margin_left = 0.01*jcst.song.midi.ticks_per_second;
+    $(jcst.canvas).css({'margin-left': '-='+margin_left+'px'});
+}, 10);
 
 </script>
 
