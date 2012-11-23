@@ -2,7 +2,6 @@ function LyricsMachine() {
     var self = this;
     $.get("lyrics.txt", function(data){
         self.lyrics = data.split("\n");
-        console.log(self.lyrics);
     });
     this.timer;
 };

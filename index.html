@@ -9,10 +9,6 @@
     <script src=midi.js></script>
     <script src=JCST.js></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src=fft.js></script>
-    <script src=pitch.js></script>
-    <script src=midi.js></script>
-    <script src=JCST.js></script>
     <script src=lyrics.js></script>
     <script src=main.js></script>
 
@@ -28,9 +24,9 @@
         <h1>Jesus Christ Sing Star</h1>
         <h3>Share the bible with your friends, while singing your favorite pop songs!</h3>
         <select id="song-picker">
+            <option value="justin_bieber-baby">Justin Bieber - Baby</option>
             <option value="queen-dont_stop_me_now">Queen - Don't Stop Me Now</option>
             <option value="gotye-somebody_that_i_used_to_know">Gotye feat. Kimbra - Somebody That I Used To Know</option>
-            <option value="justin_bieber-baby">Justin Bieber - Baby</option>
             <option value="adele-rolling_in_the_deep">Adele - Rolling in the Deep</option>
             <option value="the_killers-human">The Killers - Human</option>
             <option value="outkast-hey_ya">Outkast - Hey Ya</option>
@@ -39,75 +35,11 @@
     </div>
     <div id="game-container">
         <h1 id="song-title"></h1>
-        <canvas id=c width="900" height="600"></canvas>
+        <canvas id=canvas width="900" height="600"></canvas>
         <div id="lyrics">
             <div id="current-line"></div>
             <div id="next-line"></div>
         </div>
     </div>
-<script>
-
-
-jcst = new JesusChristSingStar();
-jcst.loadMidi('midi/justin_bieber-baby.mid.json');
-
-
-var ctx = document.getElementById('canvas').getContext('2d');
-
-var context = new webkitAudioContext();  
-
-var pitch = new PitchAnalyzer(context.sampleRate);
-
-
-var jsnode = context.createJavaScriptNode(4096);
-
-var freq = 0;
-
-
-var freqs = [];
-for(var i=0;i<4;i++){
-    freqs[i] = 0;
-}
-
-var freq_counter = 0;
-
-
-function freq_avg(){
-    var total = 0;
-    for(var i=0;i<freqs.length;i++){
-        total += freqs[i]; 
-    }
-    return total / freqs.length;
-}
-
-
-jsnode.onaudioprocess = function(e){
-    var data = e.inputBuffer.getChannelData(0);
-    pitch.input(data);
-    pitch.process();
-    
-    var tone = pitch.findTone();
-    if(tone){
-        freqs[freq_counter] = tone.freq;
-        freq_counter = (freq_counter + 1) % freqs.length;
-
-        freq = freq_avg();
-
-
-        ctx.fillStyle = 'orange';
-        ctx.fillRect(100, (c.height-freq+200), 40, 20);
-    }
-};
-
-
-navigator.webkitGetUserMedia({audio: true}, function(stream) {
-        console.log("Connected live audio input");
-        liveSource = context.createMediaStreamSource(stream);
-        liveSource.connect(jsnode);
-        jsnode.connect(context.destination);
-}, function(){});
-
-
-</script>
 </body>
 </html>
