@@ -17,10 +17,11 @@ LyricsMachine.prototype.updateLines = function(length) {
     document.getElementById("current-line").innerHTML = document.getElementById("next-line").innerHTML;
     document.getElementById("next-line").innerHTML = line;
 }
-LyricsMachine.prototype.play = function() {
+LyricsMachine.prototype.play = function(interval) {
     this.updateLines(8);
     this.updateLines(8);
-    this.timer = setInterval(this.updateLines(8), 5000);
+    var that = this;
+    this.timer = setInterval(function(){that.updateLines(8)}, interval);
 }
 LyricsMachine.prototype.pause = function() {
     clearInterval(this.timer);

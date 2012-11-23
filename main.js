@@ -41,11 +41,7 @@ $(document).ready(function(){
             freqs[freq_counter] = tone.freq;
             freq_counter = (freq_counter + 1) % freqs.length;
 
-            freq = freq_avg();
-
-
-            ctx.fillStyle = 'orange';
-            ctx.fillRect(100, (canvas.height-freq+200), 40, 20);
+            jcst.freq = freq_avg();
         }
     };
 

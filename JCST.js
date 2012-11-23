@@ -26,7 +26,6 @@ JCST.prototype.loadMidi = function(name){
 
         that.reset();
         that.song = data;
-        that.lyrics.play();
 
 
         /* set tempo */
@@ -88,6 +87,7 @@ JCST.prototype.start = function(){
     
     var that = this;
     this.audio.play();
+    this.lyrics.play(this.song.midi.ticks_per_beat/this.song.midi.ticks_per_second*1000*4*2);
     setInterval(function(){that.render()},10);
 
 };
@@ -120,6 +120,14 @@ JCST.prototype.getNotesBetween = function(from, to){
 };
 
 
+JCST.noteToFreq = function(note_number){
+    return 440*Math.pow(2,(note_number-57)/12);
+};
+
+JCST.freqToNote = function(freq){
+    return (Math.log(freq/440)/Math.LN2*12+57);
+};
+
 
 JCST.prototype.render = function(){
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
@@ -141,6 +149,10 @@ JCST.prototype.render = function(){
         }
         this.ctx.fillRect((note.start-now+seconds_per_beat)*this.pixels_per_second, (this.note_offset-note.note_number)*this.pixels_per_semitone, note.length*this.pixels_per_second, 1*this.pixels_per_semitone);
     }
+
+    this.ctx.fillStyle = 'lightblue';
+    var y = (this.note_offset - JCST.freqToNote(this.freq*4))*this.pixels_per_semitone;
+    this.ctx.fillRect(seconds_per_beat*this.pixels_per_second, y, 20, this.pixels_per_semitone);
 };
 
 
