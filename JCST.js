@@ -31,6 +31,7 @@ function JCST(){
     this.last_freq = 0;
     this.points = 0;
     this.$points = $('#points');
+    this.ps = new ParticleSystem();
 
     console.log(this.freq);
     this.ctx.fillRoundedRect = function(x, y, width, height, radius) {
@@ -206,6 +207,11 @@ JCST.prototype.render = function(){
             if(Math.round(JCST.freqToNote(this.freq)) == note.note_number){
                 this.points++;
                 this.$points.text(this.points);
+                var p = this.particles[(this.particle_tracker + this.particles.length-1) % this.particles.length];
+                var x = (p.t - now+seconds_per_beat)*this.pixels_per_second;
+                var y = (this.note_offset-p.note_number)*this.pixels_per_semitone;
+                console.log(x,y);
+                this.ps.explode(x,y);
             }
         }else{
             this.ctx.fillStyle = 'black';
@@ -231,6 +237,9 @@ JCST.prototype.render = function(){
 
         this.ctx.drawImage(this.particle_sprite, (p.t - now+seconds_per_beat)*this.pixels_per_second, (this.note_offset-p.note_number)*this.pixels_per_semitone);
     }
+
+    this.ps.update();
+    this.ps.render(this.ctx);
 };
 
 
