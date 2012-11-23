@@ -1,0 +1,96 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: helvetica, arial, sans-serif;
+    background-image: -webkit-gradient(linear, right bottom, right top, color-stop(0, #eee), color-stop(0.25, #eee), color-stop(0.25, #ddd), color-stop(0.5, #ddd), color-stop(0.5, #eee), color-stop(0.75, #eee), color-stop(0.75, #ddd));
+    background-image: -webkit-linear-gradient(right bottom, #eee 0%, #eee 25%, #ddd 25%, #ddd 50%, #eee 50%, #eee 75%, #ddd 75%);
+    background-image: -moz-linear-gradient(right bottom, #eee 0%, #eee 25%, #ddd 25%, #ddd 50%, #eee 50%, #eee 75%, #ddd 75%);
+    background-image: -ms-linear-gradient(right bottom, #eee 0%, #eee 25%, #ddd 25%, #ddd 50%, #eee 50%, #eee 75%, #ddd 75%);
+    background-image: -o-linear-gradient(right bottom, #eee 0%, #eee 25%, #ddd 25%, #ddd 50%, #eee 50%, #eee 75%, #ddd 75%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ddd',GradientType=0 ); / IE6-8 */
+    background-image: linear-gradient(right bottom, #eee 0%, #eee 25%, #ddd 25%, #ddd 50%, #eee 50%, #eee 75%, #ddd 75%);
+    background-size: 30px 30px;
+}
+
+#splash-container {
+    width: 450px;
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    margin-left: -450px;
+    padding-left: 450px;
+    padding-top: 150px;
+    text-align: left;
+    background: url('jesusisafriendofmine.png') no-repeat left;
+    background-size: 450px;
+    min-height: 450px;
+}
+#start-button{
+    padding: 10px 15px;
+    background: #4479BA;
+    color: #FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: solid 1px #20538D;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+#start-button:hover {
+    background: #356094;
+    border: solid 1px #2A4E77;
+    text-decoration: none;
+}
+#start-button:active {
+    -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+    background: #2E5481;
+    border: solid 1px #203E5F;
+}
+
+h1 {
+    font-size: 3em;
+}
+h3 {
+    font-weight: normal;
+    margin: 2em 0;
+}
+
+#game-container {
+    position: absolute;
+    width: 900px;
+    top: 50px;
+    left: 50%;
+    margin-left: -450px;
+    display: none;
+}
+
+#lyrics {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    text-align: center;
+    font-size: 1.2em;
+    background: rgba(255,255,255,0.5);
+}
+#lyrics div {
+    margin: 1em;
+}
+#lyrics #current-line {
+    font-weight: bold;
+    font-size: 1.1em;
+}

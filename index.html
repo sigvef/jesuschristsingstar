@@ -9,7 +9,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <style>
-    *{position:absolute;top:0;left:0}
+    canvas{position:absolute;top:0;left:0}
 </style>
 
 </head>
@@ -18,6 +18,26 @@
 <canvas id=c height=600></canvas>
 
 
+
+    <title>Jesus Christ SingStar</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <script src=https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js></script>
+    <script src=lyrics.js></script>
+    <script src=main.js></script>
+</head>
+<body>
+    <div id="splash-container">
+        <h1>Jesus Christ Sing Star</h1>
+        <h3>Share the bible with your friends, while singing your favorite pop songs!</h3>
+        <a href="javascript:;" id="start-button">Start!</a>
+    </div>
+    <div id="game-container">
+        <canvas id="c" width="900" height="450"></canvas>
+        <div id="lyrics">
+            <div id="current-line"></div>
+            <div id="next-line"></div>
+        </div>
+    </div>
 <script>
 
 
@@ -30,7 +50,7 @@ jcst.loadMidi('midi/justin_bieber-baby.mid.json');
 
 
 
-var ctx = c.getContext('2d');
+var ctx = document.getElementById('c').getContext('2d');
 
 var context = new webkitAudioContext();  
 
@@ -93,6 +113,5 @@ setInterval(function(){
 }, 10);
 
 </script>
-
 </body>
 </html>
