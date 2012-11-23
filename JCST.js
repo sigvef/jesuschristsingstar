@@ -1,3 +1,13 @@
+window.requestAnimFrame = (function(){
+    return  window.requestAnimationFrame       || 
+    window.webkitRequestAnimationFrame || 
+    window.mozRequestAnimationFrame    || 
+    window.oRequestAnimationFrame      || 
+    window.msRequestAnimationFrame     || 
+    function( callback ){
+        window.setTimeout(callback, 0);
+    };
+})();
 
 function JCST(){
     this.song = {};
@@ -16,6 +26,45 @@ function JCST(){
     this.pixels_per_semitone = 20;
     this.audio = new Audio();
     this.note_offset = 0;
+    this.particle_tracker = 0;
+    this.freq = 440;
+
+    console.log(this.freq);
+    this.ctx.fillRoundedRect = function(x, y, width, height, radius) {
+      this.beginPath();
+      this.moveTo(x + radius, y);
+      this.lineTo(x + width - radius, y);
+      this.quadraticCurveTo(x + width, y, x + width, y + radius);
+      this.lineTo(x + width, y + height - radius);
+      this.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+      this.lineTo(x + radius, y + height);
+      this.quadraticCurveTo(x, y + height, x, y + height - radius);
+      this.lineTo(x, y + radius);
+      this.quadraticCurveTo(x, y, x + radius, y);
+      this.closePath();
+      this.fill();
+    }
+
+    this.particles = [];
+    for(var i=0;i<16*4*4;i++){
+        this.particles[i] = {t: 0, note_number: 0};
+    }
+
+    this.particle_sprite = (function(){
+        var GU = 20;
+        var sprite = document.createElement('canvas');
+        sprite.width = GU*2;
+        sprite.height = GU*2;
+        var x = sprite.getContext("2d");
+        var gradient = x.createRadialGradient(GU,GU,0,GU,GU,GU);
+        x.fillStyle = gradient;
+        gradient.addColorStop(0,'rgba(0,100,255,1)');
+        gradient.addColorStop(1,'rgba(0,100,255,0)');
+        x.beginPath();
+        x.arc(GU,GU, GU, 0, Math.PI*2);
+        x.fill();
+        return sprite;
+    })();
 }
 
 
@@ -88,7 +137,7 @@ JCST.prototype.start = function(){
     var that = this;
     this.audio.play();
     this.lyrics.play(this.song.midi.ticks_per_beat/this.song.midi.ticks_per_second*1000*4*2);
-    setInterval(function(){that.render()},10);
+    this.render();
 
 };
 
@@ -129,7 +178,14 @@ JCST.freqToNote = function(freq){
 };
 
 
+JCST.prototype.setFreq = function(freq){
+
+    this.freq = freq*4;
+};
+
 JCST.prototype.render = function(){
+    var that = this;
+    requestAnimFrame(function(){that.render()});
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
     this.ctx.fillStyle = 'black';
@@ -147,13 +203,36 @@ JCST.prototype.render = function(){
         }else{
             this.ctx.fillStyle = 'black';
         }
-        this.ctx.fillRect((note.start-now+seconds_per_beat)*this.pixels_per_second, (this.note_offset-note.note_number)*this.pixels_per_semitone, note.length*this.pixels_per_second, 1*this.pixels_per_semitone);
+        this.ctx.fillRoundedRect((note.start-now+seconds_per_beat)*this.pixels_per_second, (this.note_offset-note.note_number)*this.pixels_per_semitone, note.length*this.pixels_per_second, 1*this.pixels_per_semitone, 10);
     }
 
+    var p = this.particles[this.particle_tracker];
+    this.particle_tracker = (this.particle_tracker + 1) % this.particles.length;
+    p.note_number = JCST.freqToNote(this.freq);
+    p.t = now;
+
+
     this.ctx.fillStyle = 'lightblue';
-    var y = (this.note_offset - JCST.freqToNote(this.freq*4))*this.pixels_per_semitone;
-    this.ctx.fillRect(seconds_per_beat*this.pixels_per_second, y, 20, this.pixels_per_semitone);
+    var y = (this.note_offset - JCST.freqToNote(this.freq))*this.pixels_per_semitone;
+    //this.ctx.fillRect(seconds_per_beat*this.pixels_per_second, y, 20, this.pixels_per_semitone);
+
+    for(var i=0;i<this.particles.length;i++){
+        var p = this.particles[i];
+
+        this.ctx.drawImage(this.particle_sprite, (p.t - now+seconds_per_beat)*this.pixels_per_second, (this.note_offset-p.note_number)*this.pixels_per_semitone);
+    }
 };
 
 
 JesusChristSingStar = JCST;
+
+    /* smoothstep interpolaties between a and b, at time t from 0 to 1 */
+    function smoothstep(a, b, t) {
+        console.log("smoothstep",a,b,t);
+        t = Math.min(Math.max(1,t),0);
+        var v = t * t * (3 - 2 * t);
+            return b * v + a * (1 - v);
+            };
+
+
+
