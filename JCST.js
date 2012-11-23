@@ -19,7 +19,7 @@ function JCST(){
 }
 
 
-JCST.prototype.loadMidi = function(name, cb){
+JCST.prototype.loadMidi = function(name){
     var that = this;
    $.getJSON(name, function(data){
        data.midi = new Midi(atob(data.midi));
@@ -72,11 +72,14 @@ JCST.prototype.loadMidi = function(name, cb){
 
         that.pixels_per_semitone = that.canvas.height/(highest-lowest);
 
+        $('#song-title').text(data.name);
+
         that.start();
    });
 }
 
 JCST.prototype.start = function(){
+
 
     if(this.audio.readyState < 3){
         var that = this;
