@@ -13,6 +13,7 @@
         $('#game-container').fadeIn("fast");
         var song = document.getElementById("song-picker").value;
         lTimer = setInterval(function(){l.updateLines(8)}, 5000);
+
     }
     function stopGame() {
         clearInterval(lTimer);

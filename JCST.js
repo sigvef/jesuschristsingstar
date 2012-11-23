@@ -13,6 +13,7 @@ function JCST(){
     this.cached_note_start = 0;
     this.pixels_per_second = 400;
     this.pixels_per_semitone = 20;
+    this.audio = new Audio();
 }
 
 
@@ -24,6 +25,9 @@ JCST.prototype.loadMidi = function(name, cb){
 
         that.reset();
         that.song = data;
+
+
+        that.audio.src = that.song.audio;
 
         var events = that.song.midi.tracks[data.voice_track].events;
 
@@ -43,15 +47,19 @@ JCST.prototype.loadMidi = function(name, cb){
             }
         }
 
-        console.log("ladedd");
         that.start();
-
    });
 }
 
 JCST.prototype.start = function(){
+
+    if(this.audio.readyState < 3){
+        var that = this;
+        return setTimeout(function(){that.start()}, 50);
+    }
     
     var that = this;
+    this.audio.play();
     setInterval(function(){that.render()},10);
 
 };
@@ -93,7 +101,7 @@ JCST.prototype.render = function(){
     console.log(notes.length);
     for(var i=0;i<notes.length;i++){
         var note = notes[i];
-        this.ctx.fillRect(note.start*this.pixels_per_second, (80-note.note_number)*this.pixels_per_semitone, note.length*this.pixels_per_second, 1*this.pixels_per_semitone);
+        this.ctx.fillRect(note.start*this.pixels_per_second, (90-note.note_number)*this.pixels_per_semitone, note.length*this.pixels_per_second, 1*this.pixels_per_semitone);
     }
 };
 
