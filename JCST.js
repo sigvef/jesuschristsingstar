@@ -9,6 +9,7 @@ function JCST(){
     this.canvas = document.getElementById('canvas');
     this.ctx = this.canvas.getContext('2d');
     this.segment_width = 1;
+    this.lyrics = new LyricsMachine();
     this.notes = [];
     this.cached_note_start = 0;
     this.pixels_per_second = 400;
@@ -19,13 +20,22 @@ function JCST(){
 
 JCST.prototype.loadMidi = function(name, cb){
     var that = this;
+    console.log(name);
    $.get(name, function(data){
        data = $.parseJSON(data);
        data.midi = new Midi(atob(data.midi));
 
         that.reset();
         that.song = data;
+        that.lyrics.play();
 
+
+        /* set tempo */
+        for(var i=0;i<data.midi.tracks.length;i++){
+        for(var j=0;j<data.midi.tracks[i].events.length;j++){
+            that.song.midi.fire_event(data.midi.tracks[i].events[j]);
+        }
+        }
 
         that.audio.src = that.song.audio;
 
@@ -37,7 +47,7 @@ JCST.prototype.loadMidi = function(name, cb){
 
         for(var i=0;i<events.length;i++){
             var event = events[i];
-            time += event.dt / that.song.midi.ticks_per_second;
+            time += event.dt / that.song.midi.ticks_per_second * that.song.slowness;
 
             if(event.type == 9){
                 note_start = time; 
@@ -96,12 +106,22 @@ JCST.prototype.getNotesBetween = function(from, to){
 JCST.prototype.render = function(){
     this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
 
-    var notes = this.getNotesBetween(0,10);
+    this.ctx.fillStyle = 'black';
+    var seconds_per_beat = this.song.midi.ticks_per_beat/this.song.midi.ticks_per_second;
+    var now = this.audio.currentTime + this.song.timeOffset;
+    var notes = this.getNotesBetween(now-4*seconds_per_beat,now+12*seconds_per_beat);
 
-    console.log(notes.length);
+    this.ctx.fillRect(seconds_per_beat*this.pixels_per_second, 0, 1, this.canvas.height);
+
+
     for(var i=0;i<notes.length;i++){
         var note = notes[i];
-        this.ctx.fillRect(note.start*this.pixels_per_second, (90-note.note_number)*this.pixels_per_semitone, note.length*this.pixels_per_second, 1*this.pixels_per_semitone);
+        if(note.start < now && note.start+note.length > now){
+            this.ctx.fillStyle = 'orange';
+        }else{
+            this.ctx.fillStyle = 'black';
+        }
+        this.ctx.fillRect((note.start-now+seconds_per_beat)*this.pixels_per_second, (90-note.note_number)*this.pixels_per_semitone, note.length*this.pixels_per_second, 1*this.pixels_per_semitone);
     }
 };
 

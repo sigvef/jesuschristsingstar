@@ -21,11 +21,44 @@ body {
     left: 50%;
     margin-left: -450px;
     padding-left: 450px;
-    padding-top: 150px;
+    padding-top: 100px;
     text-align: left;
-    background: url('jesusisafriendofmine.png') no-repeat left;
-    background-size: 450px;
     min-height: 450px;
+}
+#jesus-wrapper {
+    position: absolute;
+    left: 0; top: 0;
+    width: 450px;
+    height: 450px;
+    background: url('jesusisafriendofmine.png') no-repeat left;
+    background-size: contain;
+    animation: jesus 1s ease-in-out infinite alternate;
+    -moz-animation: jesus 1s ease-in-out infinite alternate; /* Firefox */
+    -webkit-animation: jesus 1s ease-in-out infinite alternate; /* Safari and Chrome */
+    -o-animation: jesus 1s ease-in-out infinite alternate; /* Opera */
+}
+@keyframes jesus
+{
+from {transform: scale(1);}
+to {transform: scale(1.1);}
+}
+
+@-moz-keyframes jesus
+{
+from {-moz-transform: scale(1);}
+to {-moz-transform: scale(1.1);}
+}
+
+@-webkit-keyframes jesus /* Firefox */
+{
+from {-webkit-transform: scale(1);}
+to {-webkit-transform: scale(1.1);}
+}
+
+@-o-keyframes jesus /* Firefox */
+{
+from {-o-transform: scale(1);}
+to {-o-transform: scale(1.1);}
 }
 #start-button{
     padding: 10px 15px;
@@ -59,6 +92,10 @@ body {
     background: #2E5481;
     border: solid 1px #203E5F;
 }
+#song-picker {
+    font-size: 1em;
+    width: 275px;
+}
 
 h1 {
     font-size: 3em;
@@ -75,6 +112,7 @@ h3 {
     left: 50%;
     margin-left: -450px;
     display: none;
+    height: 600px;
 }
 
 #lyrics {
