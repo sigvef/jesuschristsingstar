@@ -28,6 +28,9 @@ function JCST(){
     this.note_offset = 0;
     this.particle_tracker = 0;
     this.freq = 440;
+    this.last_freq = 0;
+    this.points = 0;
+    this.$points = $('#points');
 
     console.log(this.freq);
     this.ctx.fillRoundedRect = function(x, y, width, height, radius) {
@@ -179,8 +182,8 @@ JCST.freqToNote = function(freq){
 
 
 JCST.prototype.setFreq = function(freq){
-
     this.freq = freq*4;
+    this.last_freq = this.audio.currentTime;
 };
 
 JCST.prototype.render = function(){
@@ -200,17 +203,24 @@ JCST.prototype.render = function(){
         var note = notes[i];
         if(note.start < now && note.start+note.length > now){
             this.ctx.fillStyle = 'orange';
+            if(Math.round(JCST.freqToNote(this.freq)) == note.note_number){
+                this.points++;
+                this.$points.text(this.points);
+            }
         }else{
             this.ctx.fillStyle = 'black';
         }
         this.ctx.fillRoundedRect((note.start-now+seconds_per_beat)*this.pixels_per_second, (this.note_offset-note.note_number)*this.pixels_per_semitone, note.length*this.pixels_per_second, 1*this.pixels_per_semitone, 10);
+
     }
 
-    var p = this.particles[this.particle_tracker];
-    this.particle_tracker = (this.particle_tracker + 1) % this.particles.length;
-    p.note_number = JCST.freqToNote(this.freq);
-    p.t = now;
-
+    if(now - this.last_freq < 2){
+        var p = this.particles[this.particle_tracker];
+        this.particle_tracker = (this.particle_tracker + 1) % this.particles.length;
+        p.note_number = JCST.freqToNote(this.freq);
+        p.t = now;
+    }
+    
 
     this.ctx.fillStyle = 'lightblue';
     var y = (this.note_offset - JCST.freqToNote(this.freq))*this.pixels_per_semitone;

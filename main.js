@@ -38,11 +38,16 @@ $(document).ready(function(){
         
         var tone = pitch.findTone();
         if(tone){
-            a = tone;
-            freqs[freq_counter] = tone.freq;
-            freq_counter = (freq_counter + 1) % freqs.length;
+            if(tone.stabledb > -30){
+                /*
+                freqs[freq_counter] = tone.freq;
+                freq_counter = (freq_counter + 1) % freqs.length;
 
-            jcst.setFreq(freq_avg());
+                jcst.setFreq(freq_avg());
+                */
+
+                jcst.setFreq(tone.freq);
+            }
         }
     };
 
