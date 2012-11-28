@@ -130,13 +130,14 @@ JCST.prototype.loadMidi = function(name){
 		$("body").append(ytp);
 		ytp.mb_YTPlayer();
 		$(document).bind("YTPStart", function(){
-			that.start();
+			that.started || that.start();
 		});
    });
 }
 
 JCST.prototype.start = function(){
 
+	this.started = true;
 
     if(this.audio.readyState < 3){
         var that = this;
@@ -145,6 +146,7 @@ JCST.prototype.start = function(){
     
     var that = this;
     this.audio.play();
+	console.log(this.song.midi.ticks_per_beat/this.song.midi.ticks_per_second*1000*4*2);
     this.lyrics.play(this.song.midi.ticks_per_beat/this.song.midi.ticks_per_second*1000*4*2);
     this.render();
 
