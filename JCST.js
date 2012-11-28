@@ -76,7 +76,9 @@ JCST.prototype.loadMidi = function(name){
     var that = this;
    $.get(name, function(data){
         data = $.parseJSON(data);
-       data.midi = new Midi(atob(data.midi));
+		console.log(data);
+		
+        data.midi = new Midi(atob(data.midi));
 
         that.reset();
         that.song = data;
@@ -124,9 +126,14 @@ JCST.prototype.loadMidi = function(name){
 
         that.pixels_per_semitone = that.canvas.height/(highest-lowest);
 
-        $('#song-title').text(data.name);
+		$('#song-title').text(data.name);
 
-        that.start();
+		var ytp = $('<a href="'+data.background+'" style="display:none" id="bgmovie" class="movie  {opacity:1, isBgndMovie:{width:\'window\',mute:true}, optimizeDisplay:true, loop: true, quality:\'medium\',optimizeDisplay:true}">Some link</a>');
+		$("body").append(ytp);
+		ytp.mb_YTPlayer();
+		$(document).bind("YTPStart", function(){
+			that.start();
+		});
    });
 }
 

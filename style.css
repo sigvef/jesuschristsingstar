@@ -126,7 +126,10 @@ h3 {
     height: 150px;
     text-align: center;
     font-size: 1.2em;
-    background: rgba(255,255,255,0.5);
+}
+
+#lyrics, canvas{
+	background: rgba(255,255,255,0.5);
 }
 #lyrics div {
     margin: 1em;

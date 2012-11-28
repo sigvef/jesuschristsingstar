@@ -64,6 +64,8 @@ $(document).ready(function(){
         $('#game-container').fadeIn("fast");
         var song = document.getElementById("song-picker").value;
         jcst.loadMidi('midi/' + song + '.mid.json');
+		
     });
+	
 
 });
