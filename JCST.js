@@ -137,12 +137,13 @@ JCST.prototype.loadMidi = function(name){
 
 JCST.prototype.start = function(){
 
-	this.started = true;
 
     if(this.audio.readyState < 3){
         var that = this;
         return setTimeout(function(){that.start()}, 50);
     }
+
+	this.started = true;
     
     var that = this;
     this.audio.play();
