@@ -65,4 +65,5 @@ $(document).ready(function(){
         var song = document.getElementById("song-picker").value;
         jcst.loadMidi('midi/' + song + '.mid.json');
     });
+
 });

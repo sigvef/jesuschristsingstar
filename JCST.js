@@ -74,12 +74,12 @@ function JCST(){
 
 JCST.prototype.loadMidi = function(name){
     var that = this;
-   $.getJSON(name, function(data){
+   $.get(name, function(data){
+        data = $.parseJSON(data);
        data.midi = new Midi(atob(data.midi));
 
         that.reset();
         that.song = data;
-
 
         /* set tempo */
         for(var i=0;i<data.midi.tracks.length;i++){
