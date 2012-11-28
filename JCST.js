@@ -74,9 +74,8 @@ function JCST(){
 
 JCST.prototype.loadMidi = function(name){
     var that = this;
-   $.get(name, function(data){
-        data = $.parseJSON(data);
-       data.midi = new Midi(atob(data.midi));
+    $.getJSON(name, function(data){
+        data.midi = new Midi(atob(data.midi));
 
         that.reset();
         that.song = data;
